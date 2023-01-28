@@ -1,32 +1,9 @@
-# Fork Sync
-[![Build](https://github.com/tg908/fork-sync/workflows/PR%20Checks/badge.svg)](https://github.com/tg908/fork-sync/actions?workflow=PR%20Checks)
-![Version](https://img.shields.io/github/v/release/tg908/fork-sync?style=flat-square)
+# 仅升级原项目中node版本号，具体使用请移步至原项目[tgymnich/fork-sync](https://github.com/tgymnich/fork-sync)
 
-Github action to sync your Forks.
-This action uses octokit and the GitHub API to automatically create and merge a pull request with the head defined by `head` into the base defined by `base`. The head branch owner is defined by `owner`. If you create a PR in the same repository you can omit the `owner` parameter.
 
-# Example Workflow
+![Version](https://img.shields.io/github/v/release/zwping/fork-sync?style=flat-square)
 
-```yml
-name: Sync Fork
 
-on:
-  schedule:
-    - cron: '*/30 * * * *' # every 30 minutes
-  workflow_dispatch: # on button click
-
-jobs:
-  sync:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: tgymnich/fork-sync@v1.6.3
-        with:
-          owner: llvm
-          base: master
-          head: master
-```
 
 ## Auto approve
 
@@ -52,29 +29,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: tgymnich/fork-sync@v1.6.3
+      - uses: zwping/fork-sync@v1.6.5
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
           owner: llvm
           base: master
           head: master
 ```
-
-# Parameters
-
-|  name           |   Optional  |   Default              |   description                                        |
-|---              |---          |---                     |---                                                   |
-|   owner         | ✅          | $current_repo_owner    |   Owner of the forked repository                     |
-|   token         | ✅          | ${{ github.token }}    |   Token  to access the Github API                    |
-|   head          | ✅          | master                 |   Head branch                                        |
-|   base          | ✅          | master                 |   Base branch                                        |
-|   merge_method  | ✅          | merge                  |   merge, rebase or squash                            |
-|   pr_title      | ✅          | Fork Sync              |   Title of the created pull request                  |
-|   pr_message    | ✅          |                        |   Message of the created pull request                |
-|   ignore_fail   | ✅          |                        |   Ignore Exceptions                                  |
-
-⚠️ $current_repo_owner is your own username!
-
-⚠️ Only provide the branch name for `head` and `base`. `user:branch` will not work! 
-
-⚠️ * if `auto_approve` is set to `true` you must provide a personal access token in `token` the default github token won't work! 
